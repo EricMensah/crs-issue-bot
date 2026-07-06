@@ -1,0 +1,5 @@
+2026-07-06 10:23:15 ERROR PaymentGateway: POST /charge returned 503
+2026-07-06 10:23:16 ERROR PaymentGateway: POST /charge returned 503
+2026-07-06 10:23:17 ERROR PaymentGateway: POST /charge returned 503
+2026-07-06 10:23:18 ERROR PaymentGateway: connection timeout after 30s
+2026-07-06 10:23:19 CRITICAL ErrorRateExceeded: 85% failure rate in last 60s

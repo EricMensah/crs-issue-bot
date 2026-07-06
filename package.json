@@ -1,0 +1,28 @@
+{
+  "name": "@EricMensah/crs-issue-bot",
+  "version": "1.0.0",
+  "description": "Slack issue reporter for the CRS portal staff — report issues, send messages, upload files via Slack Web API",
+  "main": "index.js",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "slack",
+    "bot",
+    "reporter",
+    "crs",
+    "issues"
+  ],
+  "author": {
+    "name": "Eric Mensah",
+    "url": "https://npmjs.com/~EricMensah"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricMensah/crs-issue-bot.git"
+  }
+}
