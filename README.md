@@ -1,16 +1,22 @@
-# crs-issue-bot
+# @EricMensah/crs-issue-bot
 
-> Slack issue reporter for CRS portal staff — report issues, send messages,
-> and upload files directly to Slack with zero npm dependencies.
+> Slack issue reporter for the CRS portal — report issues, send messages, and
+> upload files to Slack with zero dependencies.
 
+## Install
+
+```bash
+npm install @EricMensah/crs-issue-bot
 ```
-npm install ./path/to/crs-issue-bot
+
+```bash
+yarn add @EricMensah/crs-issue-bot
 ```
 
 ## Quick Start
 
 ```js
-const { SlackReporter } = require('crs-issue-bot');
+const { SlackReporter } = require('@EricMensah/crs-issue-bot');
 
 const reporter = new SlackReporter.Builder()
     .setBotToken(process.env.SLACK_BOT_TOKEN)
@@ -18,76 +24,108 @@ const reporter = new SlackReporter.Builder()
     .setAppName('CRS Portal')
     .build();
 
+// Send a message
 await reporter.sendMessage('Deployment complete :rocket:');
+
+// Report an issue
+await reporter.reportIssue({
+    title: 'Payment gateway timeout',
+    severity: 'critical',
+    description: '503 errors on /charge endpoint',
+    reportedBy: 'ops@crs.com',
+});
+
+// Upload a file
+await reporter.uploadFile('./debug.log', 'Error logs attached');
 ```
 
-## Setup
+### ESM
+
+```js
+import { SlackReporter } from '@EricMensah/crs-issue-bot';
+```
+
+---
+
+## Prerequisites
 
 1. Create a Slack App at https://api.slack.com/apps
-2. Add **Bot Token Scopes**: `chat:write`, `files:write`
-3. Install the app and copy the **Bot User OAuth Token** (`xoxb-...`)
+2. Add **Bot Token Scopes**: `chat:write` `files:write`
+3. Install the app to your workspace — copy the **Bot User OAuth Token**
 4. Invite the bot to your channel: `/invite @your-bot-name`
-5. Get the **Channel ID** (right-click channel → View details → ID at bottom)
+5. Get the **Channel ID** from channel details
 
 ```bash
-set SLACK_BOT_TOKEN=xoxb-your-token-here
-set SLACK_CHANNEL_ID=C01234567890
+export SLACK_BOT_TOKEN=xoxb-your-bot-token
+export SLACK_CHANNEL_ID=C01234567890
 ```
+
+---
 
 ## API
 
-### Builder
+### `SlackReporter.Builder`
 
 | Method | Description |
 |--------|-------------|
 | `setBotToken(token)` | Slack bot token (`xoxb-...`) |
 | `setChannelId(id)` | Target channel ID (`C...`) |
-| `setAppName(name)` | App name shown in issue reports |
-| `build()` | Returns a configured `SlackReporter` instance |
+| `setAppName(name)` | App name shown in issue headers |
+| `build()` | Returns a configured `SlackReporter` |
 
-### SlackReporter
-
-#### `sendMessage(text)`
-
-Post a simple text message to the channel.
+### `sendMessage(text)`
 
 ```js
-await reporter.sendMessage(':white_check_mark: Scan completed successfully');
+await reporter.sendMessage(':white_check_mark: Scan passed');
 ```
 
-#### `uploadFile(filePath, comment?)`
+| Param | Type | Description |
+|-------|------|-------------|
+| `text` | string | Slack mrkdwn message |
 
-Upload a file using Slack's 3-step API.
+### `uploadFile(filePath, comment?)`
 
 ```js
 await reporter.uploadFile('/tmp/report.pdf', 'Monthly audit report');
 ```
 
-#### `reportIssue({ title, description, severity, reportedBy, filePath? })`
+| Param | Type | Description |
+|-------|------|-------------|
+| `filePath` | string | Path to the file to upload |
+| `comment` | string? | Optional message with the file |
 
-Format and send a structured issue report.
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `title` | string | yes | Short issue title |
-| `description` | string | no | Detailed description |
-| `severity` | string | yes | `critical` `high` `medium` `low` |
-| `reportedBy` | string | no | Email or name of reporter |
-| `filePath` | string | no | Path to attach a file |
+### `reportIssue({ title, description, severity, reportedBy, filePath? })`
 
 ```js
 await reporter.reportIssue({
-    title: 'Login page timeout',
-    description: 'Users experiencing delays on the login page.',
+    title: 'Database connection pool exhausted',
+    description: 'Connection pool reached max capacity. App is queuing requests.',
     severity: 'high',
-    reportedBy: 'ops@crs.com',
-    filePath: '/tmp/debug.log',
+    reportedBy: 'backend@crs.com',
+    filePath: '/var/log/app/error.log',
 });
 ```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `title` | string | yes | Short issue summary |
+| `description` | string | no | Full description |
+| `severity` | string | yes | One of: `critical` `high` `medium` `low` |
+| `reportedBy` | string | no | Email or name of the reporter |
+| `filePath` | string | no | Attach a file to the report |
+
+Severity determines the emoji and label:
+
+| Severity | Emoji |
+|----------|-------|
+| `critical` | :red_circle: |
+| `high` | :large_orange_circle: |
+| `medium` | :large_yellow_circle: |
+| `low` | :large_green_circle: |
 
 ---
 
 ## Requirements
 
 - Node.js 14+
-- No npm dependencies (uses built-in `https` and `fs` modules)
+- Zero npm dependencies (uses built-in `https` and `fs`)
