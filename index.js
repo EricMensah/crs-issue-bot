@@ -2,9 +2,9 @@
  * crs-issue-bot — Slack issue reporter for CRS portal staff
  *
  * Usage:
- *   const { SlackReporter } = require('@EricMensah/crs-issue-bot');
+ *   const { SlackBot } = require('crs-issue-bot');
  *
- *   const app = new SlackReporter.Builder()
+ *   const app = new SlackBot.Builder()
  *       .setBotToken(process.env.SLACK_BOT_TOKEN)
  *       .setChannelId(process.env.SLACK_CHANNEL_ID)
  *       .setAppName('CRS Portal')
@@ -61,9 +61,9 @@ function slackRequest(method, payload) {
 }
 
 // ---------------------------------------------------------------------------
-// SlackReporter class
+// SlackBot class
 // ---------------------------------------------------------------------------
-class SlackReporter {
+class SlackBot {
     /**
      * @param {object} config
      * @param {string} config.botToken   - Slack bot token (xoxb-...)
@@ -72,7 +72,7 @@ class SlackReporter {
      */
     constructor(config) {
         if (!config || !config.botToken || !config.channelId) {
-            throw new Error('SlackReporter: botToken and channelId are required');
+            throw new Error('SlackBot: botToken and channelId are required');
         }
         this._botToken = config.botToken;
         this._channelId = config.channelId;
@@ -83,7 +83,7 @@ class SlackReporter {
     // Builder
     // -----------------------------------------------------------------------
     static get Builder() {
-        return class SlackReporterBuilder {
+        return class SlackBotBuilder {
             constructor() {
                 this.config = {};
             }
@@ -104,9 +104,9 @@ class SlackReporter {
             }
 
             build() {
-                if (!this.config.botToken) throw new Error('SlackReporter.Builder: botToken is required');
-                if (!this.config.channelId) throw new Error('SlackReporter.Builder: channelId is required');
-                return new SlackReporter(this.config);
+                if (!this.config.botToken) throw new Error('SlackBot.Builder: botToken is required');
+                if (!this.config.channelId) throw new Error('SlackBot.Builder: channelId is required');
+                return new SlackBot(this.config);
             }
         };
     }
@@ -229,4 +229,4 @@ class SlackReporter {
     }
 }
 
-module.exports = { SlackReporter };
+module.exports = { SlackBot };

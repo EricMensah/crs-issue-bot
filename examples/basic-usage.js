@@ -7,11 +7,11 @@
  *   node examples/basic-usage.js
  */
 
-const { SlackReporter } = require('../index');
+const { SlackBot } = require('../index');
 
 async function main() {
     // ---- Build the app ----
-    const app = new SlackReporter.Builder()
+    const app = new SlackBot.Builder()
         .setBotToken(process.env.SLACK_BOT_TOKEN)
         .setChannelId(process.env.SLACK_CHANNEL_ID)
         .setAppName('CRS Portal')

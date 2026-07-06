@@ -1,4 +1,4 @@
-# @EricMensah/crs-issue-bot
+# crs-issue-bot
 
 > Slack issue reporter for the CRS portal — report issues, send messages, and
 > upload files to Slack with zero dependencies.
@@ -6,19 +6,19 @@
 ## Install
 
 ```bash
-npm install @EricMensah/crs-issue-bot
+npm install crs-issue-bot
 ```
 
 ```bash
-yarn add @EricMensah/crs-issue-bot
+yarn add crs-issue-bot
 ```
 
 ## Quick Start
 
 ```js
-const { SlackReporter } = require('@EricMensah/crs-issue-bot');
+const { SlackBot } = require('crs-issue-bot');
 
-const app = new SlackReporter.Builder()
+const app = new SlackBot.Builder()
     .setBotToken(process.env.SLACK_BOT_TOKEN)
     .setChannelId(process.env.SLACK_CHANNEL_ID)
     .setAppName('CRS Portal')
@@ -42,7 +42,7 @@ await app.uploadFile('./debug.log', 'Error logs attached');
 ### ESM
 
 ```js
-import { SlackReporter } from '@EricMensah/crs-issue-bot';
+import { SlackBot } from 'crs-issue-bot';
 ```
 
 ---
@@ -64,14 +64,14 @@ export SLACK_CHANNEL_ID=C01234567890
 
 ## API
 
-### `SlackReporter.Builder`
+### `SlackBot.Builder`
 
 | Method | Description |
 |--------|-------------|
 | `setBotToken(token)` | Slack bot token (`xoxb-...`) |
 | `setChannelId(id)` | Target channel ID (`C...`) |
 | `setAppName(name)` | App name shown in issue headers |
-| `build()` | Returns a configured `SlackReporter` |
+| `build()` | Returns a configured `SlackBot` |
 
 ### `sendMessage(text)`
 
