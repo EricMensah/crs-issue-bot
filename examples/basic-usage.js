@@ -10,8 +10,8 @@
 const { SlackReporter } = require('../index');
 
 async function main() {
-    // ---- Build the reporter ----
-    const reporter = new SlackReporter.Builder()
+    // ---- Build the app ----
+    const app = new SlackReporter.Builder()
         .setBotToken(process.env.SLACK_BOT_TOKEN)
         .setChannelId(process.env.SLACK_CHANNEL_ID)
         .setAppName('CRS Portal')
@@ -19,13 +19,13 @@ async function main() {
 
     // ---- 1. Send a simple message ----
     console.log('Sending message...');
-    await reporter.sendMessage(
+    await app.sendMessage(
         ':white_check_mark: *CRS Portal* — deployment to production completed successfully.'
     );
 
     // ---- 2. Report an issue ----
     console.log('Reporting issue...');
-    await reporter.reportIssue({
+    await app.reportIssue({
         title: 'User login timeout',
         description: 'Users are experiencing 10+ second delays on the login page. Possible database connection pool exhaustion.',
         severity: 'high',
@@ -34,7 +34,7 @@ async function main() {
 
     // ---- 3. Report a critical issue with file attachment ----
     console.log('Reporting critical issue with file...');
-    await reporter.reportIssue({
+    await app.reportIssue({
         title: 'Payment gateway returning 503',
         description: 'Payment API is unresponsive. Error rate increased by 300% in the last 5 minutes.',
         severity: 'critical',
@@ -44,7 +44,7 @@ async function main() {
 
     // ---- 4. Upload a file alone ----
     console.log('Uploading file...');
-    await reporter.uploadFile('./package.json', 'Package config for reference');
+    await app.uploadFile('./package.json', 'Package config for reference');
 
     console.log('All done!');
 }

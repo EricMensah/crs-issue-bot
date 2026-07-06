@@ -18,17 +18,17 @@ yarn add @EricMensah/crs-issue-bot
 ```js
 const { SlackReporter } = require('@EricMensah/crs-issue-bot');
 
-const reporter = new SlackReporter.Builder()
+const app = new SlackReporter.Builder()
     .setBotToken(process.env.SLACK_BOT_TOKEN)
     .setChannelId(process.env.SLACK_CHANNEL_ID)
     .setAppName('CRS Portal')
     .build();
 
 // Send a message
-await reporter.sendMessage('Deployment complete :rocket:');
+await app.sendMessage('Deployment complete :rocket:');
 
 // Report an issue
-await reporter.reportIssue({
+await app.reportIssue({
     title: 'Payment gateway timeout',
     severity: 'critical',
     description: '503 errors on /charge endpoint',
@@ -36,7 +36,7 @@ await reporter.reportIssue({
 });
 
 // Upload a file
-await reporter.uploadFile('./debug.log', 'Error logs attached');
+await app.uploadFile('./debug.log', 'Error logs attached');
 ```
 
 ### ESM
@@ -76,7 +76,7 @@ export SLACK_CHANNEL_ID=C01234567890
 ### `sendMessage(text)`
 
 ```js
-await reporter.sendMessage(':white_check_mark: Scan passed');
+await app.sendMessage(':white_check_mark: Scan passed');
 ```
 
 | Param | Type | Description |
@@ -86,7 +86,7 @@ await reporter.sendMessage(':white_check_mark: Scan passed');
 ### `uploadFile(filePath, comment?)`
 
 ```js
-await reporter.uploadFile('/tmp/report.pdf', 'Monthly audit report');
+await app.uploadFile('/tmp/report.pdf', 'Monthly audit report');
 ```
 
 | Param | Type | Description |
@@ -97,7 +97,7 @@ await reporter.uploadFile('/tmp/report.pdf', 'Monthly audit report');
 ### `reportIssue({ title, description, severity, reportedBy, filePath? })`
 
 ```js
-await reporter.reportIssue({
+await app.reportIssue({
     title: 'Database connection pool exhausted',
     description: 'Connection pool reached max capacity. App is queuing requests.',
     severity: 'high',

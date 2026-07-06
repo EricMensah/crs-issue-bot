@@ -1,7 +1,7 @@
 {
   "name": "@EricMensah/crs-issue-bot",
   "version": "1.0.0",
-  "description": "Slack issue reporter for the CRS portal staff — report issues, send messages, upload files via Slack Web API",
+  "description": "Slack issue reporter for CRS — report issues, send messages, upload files via Slack Web API",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {

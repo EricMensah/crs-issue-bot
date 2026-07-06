@@ -2,17 +2,17 @@
  * crs-issue-bot — Slack issue reporter for CRS portal staff
  *
  * Usage:
- *   const { SlackReporter } = require('crs-issue-bot');
+ *   const { SlackReporter } = require('@EricMensah/crs-issue-bot');
  *
- *   const reporter = new SlackReporter.Builder()
+ *   const app = new SlackReporter.Builder()
  *       .setBotToken(process.env.SLACK_BOT_TOKEN)
  *       .setChannelId(process.env.SLACK_CHANNEL_ID)
  *       .setAppName('CRS Portal')
  *       .build();
  *
- *   await reporter.sendMessage('Deployment complete');
- *   await reporter.reportIssue({ title: 'Login failed', severity: 'critical', description: '...' });
- *   await reporter.uploadFile('./debug.log', 'Error log attached');
+ *   await app.sendMessage('Deployment complete');
+ *   await app.reportIssue({ title: 'Login failed', severity: 'critical', description: '...' });
+ *   await app.uploadFile('./debug.log', 'Error log attached');
  */
 
 const https = require('https');
